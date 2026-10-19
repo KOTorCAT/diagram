@@ -1,0 +1,36 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Пользователь" as User
+actor "Аналитик" as Analyst
+actor "Администратор" as Admin
+
+rectangle "Веб-система обработки и поиска документов" {
+  usecase "Выполнить поиск" as UC_Search
+  usecase "Просмотреть документ" as UC_View
+  usecase "Загрузить документ" as UC_Upload
+  usecase "Обезличить документ" as UC_Depers
+  usecase "Извлечь текст (OCR)" as UC_OCR
+  usecase "Структурировать документ" as UC_Struct
+  usecase "Проиндексировать документ" as UC_Index
+  usecase "Настроить правила обезличивания" as UC_Rules
+  usecase "Экспортировать результаты" as UC_Export
+  usecase "Управлять пользователями" as UC_Users
+}
+
+User --> UC_Search
+User --> UC_View
+Analyst --> UC_Upload
+Analyst --> UC_Rules
+Analyst --> UC_Search
+Analyst --> UC_Export
+Admin --> UC_Users
+Admin --> UC_Search
+
+UC_Upload ..> UC_Depers : <<include>>
+UC_Depers ..> UC_OCR : <<include>>
+UC_OCR ..> UC_Struct : <<include>>
+UC_Struct ..> UC_Index : <<include>>
+UC_Search ..> UC_View : <<extend>> : при выборе результата
+@enduml
