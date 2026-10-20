@@ -1,0 +1,53 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam sequenceMessageAlign left
+skinparam sequence {
+  ArrowColor Black
+  LifeLineBorderColor Black
+  ParticipantBackgroundColor White
+  ParticipantBorderColor Black
+  GroupBorderColor Black
+}
+
+autonumber
+
+actor "Пользователь" as User
+participant "Интерфейс" as UI
+participant "Сервис" as Service
+participant "Сервис ИИ" as AI
+database "База данных" as DB
+
+group 1. Обработка документа
+  User -> UI : загрузить документ
+  UI -> Service : создать(файл)
+  Service -> AI : извлечь данные
+  AI --> Service : структурированные данные
+  Service -> DB : сохранить(данные)
+  Service --> UI : страница проверки
+end
+
+group 2. Проверка и подтверждение
+  User -> UI : подтвердить
+  UI -> Service : сохранить данные
+  Service -> DB : обновить(статус = готов)
+  Service --> UI : успех
+  UI --> User : документ готов
+end
+
+group 3. Поиск и вопросы
+  User -> UI : задать вопрос
+  UI -> Service : обработать вопрос
+  
+  Service -> DB : найти подходящие фрагменты
+  DB --> Service : контекст
+  
+  Service -> AI : сформировать ответ по контексту
+  AI --> Service : текст ответа
+  
+  Service --> UI : ответ и источники
+  UI --> User : показать ответ
+end
+
+@enduml

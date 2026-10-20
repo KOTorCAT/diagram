@@ -1,0 +1,68 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam classAttributeIconSize 0
+skinparam nodesep 50
+skinparam ranksep 60
+
+' Скрываем лишние значки, чтобы было строго
+hide empty members
+hide circle
+
+class "Пользователь" as User {
+  - идентификатор : int
+  - логин : string
+  - Пароля : string
+}
+
+class "Документ" as Doc {
+  - идентификатор : int
+  - название : string
+  - путьКФайлу : string
+  - извлеченныеДанные : JSON
+  - полныйТекст : string
+  + обработать()
+  + подтвердить()
+  + удалить()
+  + найтиИнформациюВнутри(запрос) : список
+}
+
+class "ПолеДокумента" as Field {
+  - ключ : string
+  - номерПозиции : int
+  - текстовоеЗначение : string
+  - числовоеЗначение : float
+  - единица : string
+  + найтиДокументыПоКритериям(фильтры) : список
+}
+
+class "Конвейер" as Pipeline {
+  - версияПромпта : string
+  - типИзФормы : string
+  + запустить(текст) : результат
+}
+
+enum "СтатусДокумента" as Status {
+  ЗАГРУЖЕН
+  ОБРАБАТЫВАЕТСЯ
+  НА_ПРОВЕРКЕ
+  ГОТОВ
+  ОШИБКА
+}
+
+enum "ТипДокумента" as Type {
+  ПРАЙС_ЛИСТ
+  СПЕЦИФИКАЦИЯ
+  ТЕХДОКУМЕНТ
+  ДРУГОЕ
+}
+
+' === Связи ===
+' Используем стандартные стрелки, Graphviz сам их идеально разведет
+User " " -- " " Doc : владеет
+Doc " " -- " " Field : содержит
+Doc --> Status : имеет
+Doc --> Type : имеет
+Pipeline ..> Doc : обрабатывает
+@enduml

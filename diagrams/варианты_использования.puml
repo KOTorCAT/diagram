@@ -1,0 +1,37 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam nodesep 40
+skinparam ranksep 40
+skinparam usecase {
+  BackgroundColor White
+  BorderColor Black
+}
+left to right direction
+
+actor "Пользователь" as Пользователь
+actor "Сервис ИИ" as СервисИИ <<внешняя>>
+
+rectangle "Веб-приложение" {
+  usecase "Загрузить документ" as Загрузка
+  usecase "Проверить и отредактировать" as Проверка
+  usecase "Подтвердить документ" as Подтверждение
+  usecase "Найти информацию в документе" as ПоискВнутри
+  usecase "Найти документ по информации" as ПоискДокумента
+  usecase "Задать вопрос по документам" as Вопрос
+  usecase "Удалить документ" as Удаление
+}
+
+Пользователь --> Загрузка
+Пользователь --> Проверка
+Пользователь --> Подтверждение
+Пользователь --> ПоискВнутри
+Пользователь --> ПоискДокумента
+Пользователь --> Вопрос
+Пользователь --> Удаление
+
+Загрузка ..> СервисИИ : обращается
+Вопрос ..> СервисИИ : обращается
+Проверка ..> Подтверждение
+@enduml

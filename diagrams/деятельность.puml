@@ -1,0 +1,32 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam activity {
+  BackgroundColor White
+  BorderColor Black
+  DiamondBackgroundColor White
+  DiamondBorderColor Black
+}
+
+start
+:Открыть раздел поиска;
+
+switch (Что нужно пользователю?)
+case (Найти в тексте)
+  :Выбрать документ;
+  :Ввести запрос;
+  :Показать совпадения;
+  
+case (Найти по данным)
+  :Задать фильтры и критерии;
+  :Показать список документов;
+  
+case (Задать вопрос)
+  :Ввести вопрос;
+  :Найти контекст;
+  :Показать ответ ИИ;
+endswitch
+
+stop
+@enduml

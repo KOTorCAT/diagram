@@ -1,0 +1,33 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam nodesep 40
+skinparam ranksep 50
+
+skinparam state {
+  BackgroundColor White
+  BorderColor Black
+  ArrowColor Black
+}
+
+' Строгое вертикальное выравнивание
+top to bottom direction
+
+[*] --> Загружен : загрузка файла
+
+Загружен --> Обрабатывается : запуск обработки
+
+Обрабатывается --> НаПроверке : успешно
+Обрабатывается --> Ошибка : сбой
+
+НаПроверке --> Готов : подтвержден пользователем
+
+Готов --> [*] : удален
+
+Ошибка --> [*] : отклонен
+
+' Дополнительная деталь: возможность редактирования
+Готов --> Готов : правка данных
+
+@enduml
